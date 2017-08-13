@@ -28,19 +28,21 @@
      var iter=1;
 
      while(document.getElementById("cat-" + iter + "-img")) {
-       // console.log(iter);
        // Record the cat img for click tracking and add listeners
        cats.push({
          tag: document.getElementById("cat-" + iter + "-img"),
          clickCount: 0,
          name: catNames[iter-1],
-         countHolder: document.getElementById("count-gadget-" + iter)
        });
 
-       cats[iter-1].tag.addEventListener('click', function() {
-         this.countHolder.textContent="You clicked " + this.name + " " +
-                                           ++this.clickCount + " time(s)";
-         }.bind(cats[iter-1]), false);
+       cats[iter-1].tag.addEventListener('click',
+         (function(iteration) {
+           return function() {
+             document.getElementById("count-gadget-" + iteration).textContent =
+               "You clicked " + this.name + " " + ++cats[iteration-1].clickCount
+               + " time(s)";
+           }
+         })(iter), false);
 
        document.getElementById("cat-" + iter + "-name").innerHTML =
          "<h2>" + cats[iter-1].name + "</h2>";
