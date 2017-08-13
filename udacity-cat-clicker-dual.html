@@ -29,23 +29,32 @@
 
      var insertCatsHere = document.getElementById('cat-list');
      cats.forEach(function (thisCat, index) {
-       insertCatsHere.innerHTML += "<img src=" + thisCat.pic +
-                                   " id=cat-" + index +
-                                   " alt='" + thisCat.alt + "'>";
-       insertCatsHere.innerHTML += "<figcaption>" + thisCat.name + "</figcaption>";
-       insertCatsHere.innerHTML += "<p id=count-gadget-" + index + "></p>";
+       var catFig=document.createElement("figure");
+       catFig.setAttribute("id", "catfig-"+index);
+       insertCatsHere.appendChild(catFig);
+
+       var cat=document.createElement("img");
+       cat.setAttribute("src", thisCat.pic);
+       cat.setAttribute("id", "cat-"+index);
+       cat.setAttribute("alt", thisCat.alt);
+       catFig.appendChild(cat);
+
+       var catCaption=document.createElement("figcaption");
+       var catCaptionText=document.createTextNode(thisCat.name);
+       catCaption.appendChild(catCaptionText);
+       catFig.appendChild(catCaption);
+
+       var countGadgetParagraph=document.createElement("p");
+       countGadgetParagraph.setAttribute("id", 'count-gadget-'+index);
+       insertCatsHere.appendChild(countGadgetParagraph);
+       
        document.getElementById('cat-' + index).addEventListener('click',
          (function(indexCopy) {
-            console.log(indexCopy, index);
             return function() {
               document.getElementById("count-gadget-" + indexCopy ).textContent =
                 "You clicked " + cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
                 + " time(s)";
-              console.log('document.getElementById("count-gadget-" ' + indexCopy +').textContent ='
-                + '"You clicked " '+ cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
-                + " time(s)");
-            };
-         })(index), false);
+            };})(index), false);
        }
      );
     </script>
