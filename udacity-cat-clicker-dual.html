@@ -7,48 +7,46 @@
       <script>
        document.write("<h1>" + document.title + "</h1>");
       </script>
-      <div id="cat-1">
-        <p id="cat-1-name"></p>
-        <img id="cat-1-img" style="height: 70%; max-height: 500px;"
-             src="https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg"
-             alt="A Cat's Image...">
-        <p id="count-gadget-1">Please click the cat picture...</p>
-      </div>
-      <div id="cat-2">
-        <p id="cat-2-name"></p>
-        <img id="cat-2-img" style="height: 70%; max-height: 500px;"
-             src="https://dianakhayyat.files.wordpress.com/2011/05/animals_cats_small_cat_005241_.jpg"
-             alt="Another Cat's Image...">
-        <p id="count-gadget-2">Please click the cat picture...</p>
+      <div id="cat-list" style="height: 70%; max-height: 500px;">
+        <!-- Javascript will populate this... -->
       </div>
     </body>
     <script>
-     var cats = [];
-     var catNames = ["Kiki The Toy", "Kuku The Puzzled"];
-     var iter=1;
+     var cats = [{
+       pic: "https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg",
+       clickCount: 0,
+       name: "Kiki The Toy",
+       // alt: "Some text"
+       alt: (function() { return "The cutesy " + this.name +
+              " shall appear here..." })()
+     }, {
+       pic: "https://dianakhayyat.files.wordpress.com/2011/05/animals_cats_small_cat_005241_.jpg",
+       clickCount: 0,
+       name: "Kuku The Hypnotizer",
+       // alt: "Some text"
+       alt: "The mighty " + this.name + " shall appear here..."
+     }];
 
-     while(document.getElementById("cat-" + iter + "-img")) {
-       // Record the cat img for click tracking and add listeners
-       cats.push({
-         tag: document.getElementById("cat-" + iter + "-img"),
-         clickCount: 0,
-         name: catNames[iter-1],
-       });
-
-       cats[iter-1].tag.addEventListener('click',
-         (function(iteration) {
-           return function() {
-             document.getElementById("count-gadget-" + iteration).textContent =
-               "You clicked " + this.name + " " + ++cats[iteration-1].clickCount
-               + " time(s)";
-           }
-         })(iter), false);
-
-       document.getElementById("cat-" + iter + "-name").innerHTML =
-         "<h2>" + cats[iter-1].name + "</h2>";
-
-       // Move on...
-       iter++;
-     }
+     var insertCatsHere = document.getElementById('cat-list');
+     cats.forEach(function (thisCat, index) {
+       insertCatsHere.innerHTML += "<img src=" + thisCat.pic +
+                                   " id=cat-" + index +
+                                   " alt='" + thisCat.alt + "'>";
+       insertCatsHere.innerHTML += "<figcaption>" + thisCat.name + "</figcaption>";
+       insertCatsHere.innerHTML += "<p id=count-gadget-" + index + "></p>";
+       document.getElementById('cat-' + index).addEventListener('click',
+         (function(indexCopy) {
+            console.log(indexCopy, index);
+            return function() {
+              document.getElementById("count-gadget-" + indexCopy ).textContent =
+                "You clicked " + cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
+                + " time(s)";
+              console.log('document.getElementById("count-gadget-" ' + indexCopy +').textContent ='
+                + '"You clicked " '+ cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
+                + " time(s)");
+            };
+         })(index), false);
+       }
+     );
     </script>
 </html>
