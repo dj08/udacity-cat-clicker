@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Cat Clicker, Reloaded!</title>
+    </head>
+    <body>
+      <script>
+       document.write("<h1>" + document.title + "</h1>");
+      </script>
+      <div id="cat-1">
+        <p id="cat-1-name"></p>
+        <img id="cat-1-img" style="height: 70%; max-height: 500px;"
+             src="https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg"
+             alt="A Cat's Image...">
+        <p id="count-gadget-1">Please click the cat picture...</p>
+      </div>
+      <div id="cat-2">
+        <p id="cat-2-name"></p>
+        <img id="cat-2-img" style="height: 70%; max-height: 500px;"
+             src="https://dianakhayyat.files.wordpress.com/2011/05/animals_cats_small_cat_005241_.jpg"
+             alt="Another Cat's Image...">
+        <p id="count-gadget-2">Please click the cat picture...</p>
+      </div>
+    </body>
+    <script>
+     var cats = [];
+     var catNames = ["Kiki The Toy", "Kuku The Puzzled"];
+     var iter=1;
+
+     while(document.getElementById("cat-" + iter + "-img")) {
+       // console.log(iter);
+       // Record the cat img for click tracking and add listeners
+       cats.push({
+         tag: document.getElementById("cat-" + iter + "-img"),
+         clickCount: 0,
+         name: catNames[iter-1],
+         countHolder: document.getElementById("count-gadget-" + iter)
+       });
+
+       cats[iter-1].tag.addEventListener('click', function() {
+         this.countHolder.textContent="You clicked " + this.name + " " +
+                                           ++this.clickCount + " time(s)";
+         }.bind(cats[iter-1]), false);
+
+       document.getElementById("cat-" + iter + "-name").innerHTML =
+         "<h2>" + cats[iter-1].name + "</h2>";
+
+       // Move on...
+       iter++;
+     }
+    </script>
+</html>
