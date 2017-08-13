@@ -30,6 +30,27 @@
        get alt () {
          return "The mighty " + this.name + " shall appear here...";
        }
+     }, {
+       pic: "http://images2.fanpop.com/image/photos/12900000/Cute-kittens-12929201-1600-1200.jpg",
+       clickCount: 0,
+       name: "Monu The Jubilant",
+       get alt () {
+         return "The eager " + this.name + " shall appear here...";
+       }
+     }, {
+       pic: "http://2.bp.blogspot.com/-FhcPduq6qnQ/TkDcxjKKwEI/AAAAAAAABuo/jKRf89KmzgA/s1600/cute+cats.jpg",
+       clickCount: 0,
+       name: "Pokus The Twins",
+       get alt () {
+         return "The milky " + this.name + " shall appear here...";
+       }
+     }, {
+       pic: "http://images2.fanpop.com/image/photos/9900000/so-cute-3-cute-kittens-9989494-1098-960.jpg",
+       clickCount: 0,
+       name: "Kattie The Small",
+       get alt () {
+         return "The cute " + this.name + " shall appear here...";
+       }
      }];
 
      var insertCatsHere = document.getElementById('cat-list');
@@ -41,6 +62,7 @@
        var cat=document.createElement("img");
        cat.setAttribute("src", thisCat.pic);
        cat.setAttribute("id", "cat-"+index);
+       cat.setAttribute("height", "500px");
        cat.setAttribute("alt", thisCat.alt);
        catFig.appendChild(cat);
 
