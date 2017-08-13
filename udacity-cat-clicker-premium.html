@@ -53,7 +53,30 @@
        }
      }];
 
-     var insertCatsHere = document.getElementById('cat-list');
+     var insertCatsHere=document.getElementById('cat-list');
+     var catListContainer=document.createElement('ul');
+     insertCatsHere.appendChild(catListContainer);
+
+    //  function displayCat(catObj) {
+    //    insertCatsHere.
+    //  }
+     cats.forEach(function (thisCat, index) {
+       var catElement=document.createElement('li');
+       catElement.setAttribute("id", 'cat-element-'+index);
+       var catElementText=
+         document.createTextNode((thisCat.name + ": " +
+           thisCat.alt).replace(/shall appear here.../i, ''));
+       catElement.appendChild(catElementText);
+       catListContainer.appendChild(catElement);
+
+       document.getElementById('cat-element-'+index).addEventListener('click',
+         (function(indexCopy) {
+            return function() {
+            }
+         })
+     )
+     })
+
      cats.forEach(function (thisCat, index) {
        var catFig=document.createElement("figure");
        catFig.setAttribute("id", "catfig-"+index);
