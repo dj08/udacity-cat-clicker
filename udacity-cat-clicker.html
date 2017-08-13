@@ -3,16 +3,25 @@
   <head>
     <title>Cat Clicker Game</title>
   </head>
+  <script>
+    document.write("<h1>" + document.title + "</h1>");
+  </script>
   <body>
-    <img id="cat-img"
+    <img id="cat-img" style="height: 70%; max-height: 500px;"
       src="https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg"
       alt="A Cat's Image...">
+    <p id="count-gadget">Please click the cat picture...</p>
   </body>
   <script>
-    document.write(document.title);
     var elem = document.getElementById('cat-img');
-    elem.addEventListener('click', function(){
-      //the element has been clicked... do stuff here
-    }, false);
+    var clickCount=0;
+    function incrementCount() {
+      clickCount++;
+      var countGadget=document.getElementById("count-gadget");
+      countGadget.firstChild.nodeValue="You clicked the picture " + clickCount
+        + " time(s)";
+    }
+
+    elem.addEventListener('click', incrementCount, false);
   </script>
 </html>
