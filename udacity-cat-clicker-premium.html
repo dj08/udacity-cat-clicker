@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Cat Clicker Premium!</title>
+    </head>
+    <body>
+      <div id="cat-list" style="height: 70%; max-height: 500px;">
+        <!-- Javascript will populate this... -->
+      </div>
+    </body>
+    <script>
+     // Add the heading
+     var pageTitle=document.createElement("h1");
+     var titleText=document.createTextNode(document.title);
+     pageTitle.appendChild(titleText);
+     document.body.insertBefore(pageTitle, document.getElementById('cat-list'));
+
+     // Add the cats
+     var cats = [{
+       pic: "https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg",
+       clickCount: 0,
+       name: "Kiki The Toy",
+       get alt () {
+         return "The cutesy " + this.name + " shall appear here...";
+       }
+     }, {
+       pic: "https://dianakhayyat.files.wordpress.com/2011/05/animals_cats_small_cat_005241_.jpg",
+       clickCount: 0,
+       name: "Kuku The Hypnotizer",
+       get alt () {
+         return "The mighty " + this.name + " shall appear here...";
+       }
+     }];
+
+     var insertCatsHere = document.getElementById('cat-list');
+     cats.forEach(function (thisCat, index) {
+       var catFig=document.createElement("figure");
+       catFig.setAttribute("id", "catfig-"+index);
+       insertCatsHere.appendChild(catFig);
+
+       var cat=document.createElement("img");
+       cat.setAttribute("src", thisCat.pic);
+       cat.setAttribute("id", "cat-"+index);
+       cat.setAttribute("alt", thisCat.alt);
+       catFig.appendChild(cat);
+
+       var catCaption=document.createElement("figcaption");
+       var catCaptionText=document.createTextNode(thisCat.name);
+       catCaption.appendChild(catCaptionText);
+       catFig.appendChild(catCaption);
+
+       var countGadgetParagraph=document.createElement("p");
+       countGadgetParagraph.setAttribute("id", 'count-gadget-'+index);
+       var countInitText=document.createTextNode("Please click the cat!");
+       countGadgetParagraph.appendChild(countInitText);
+       insertCatsHere.appendChild(countGadgetParagraph);
+
+      //  insertCatsHere.innerHTML += "<p id=count-gadget-alt-" + index + "></p>";
+       document.getElementById('cat-' + index).addEventListener('click',
+         (function(indexCopy) {
+            return function() {
+              document.getElementById("count-gadget-" + indexCopy).textContent =
+                "You clicked " + cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
+                + " time(s)";
+              // document.getElementById("count-gadget-alt-" + indexCopy).textContent =
+              //   "You clicked " + cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
+              //   + " time(s)";
+            };})(index), false);
+       }
+     );
+    </script>
+</html>
