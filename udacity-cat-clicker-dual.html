@@ -46,14 +46,20 @@
 
        var countGadgetParagraph=document.createElement("p");
        countGadgetParagraph.setAttribute("id", 'count-gadget-'+index);
+       var countInitText=document.createTextNode("Please click the cat!");
+       countGadgetParagraph.appendChild(countInitText);
        insertCatsHere.appendChild(countGadgetParagraph);
-       
+
+      //  insertCatsHere.innerHTML += "<p id=count-gadget-alt-" + index + "></p>";
        document.getElementById('cat-' + index).addEventListener('click',
          (function(indexCopy) {
             return function() {
-              document.getElementById("count-gadget-" + indexCopy ).textContent =
+              document.getElementById("count-gadget-" + indexCopy).textContent =
                 "You clicked " + cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
                 + " time(s)";
+              // document.getElementById("count-gadget-alt-" + indexCopy).textContent =
+              //   "You clicked " + cats[indexCopy].name + " " + ++cats[indexCopy].clickCount
+              //   + " time(s)";
             };})(index), false);
        }
      );
