@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Cat Clicker Premium!</title>
+    </head>
+    <body>
+	<div id="cat-list" style="height: 70%; max-height: 500px;">
+            <!-- Javascript will populate this... -->
+	</div>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+     $(document).ready(function(){
+         // Add the heading
+         // Good reference: http://www.hongkiat.com/blog/jquery-insert-element-part1/
+         // Answer on why innerHTML is not the best thing to do with frequent queries:
+         // https://stackoverflow.com/questions/2946656/advantages-of-createelement-over-innerhtml
+
+         /* Pure HTML -- fast, disturbs existing references */
+         /* document.body.insertBefore("<h1>"+document.title+"</h1>", document.getElementById('cat-list'));*/
+
+         /* Pure HTML way */
+         /* var pageTitle=document.createElement("h1");
+          * pageTitle.textContent=document.title;
+          * document.body.insertBefore(pageTitle, document.getElementById('cat-list'));*/
+
+         /* jQuery method -- innerHTML equivalent */
+         /* $('body').prepend("<h1>"+document.title+"</h1>");*/
+
+         /* jQuery method, createElement equivalent, does not disturb references */
+         $('<h1>', { text: document.title }).prependTo("body");
+
+         // Add the cats
+         var cats = [{
+	     pic: "https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg",
+	     clickCount: 0,
+	     name: "Kiki The Toy",
+	     get alt () {
+                 return "The cutesy " + this.name + " shall appear here...";
+	     }
+         }, {
+	     pic: "https://dianakhayyat.files.wordpress.com/2011/05/animals_cats_small_cat_005241_.jpg",
+	     clickCount: 0,
+	     name: "Kuku The Hypnotizer",
+	     get alt () {
+                 return "The mighty " + this.name + " shall appear here...";
+	     }
+         }, {
+	     pic: "http://images2.fanpop.com/image/photos/12900000/Cute-kittens-12929201-1600-1200.jpg",
+	     clickCount: 0,
+	     name: "Monu The Jubilant",
+	     get alt () {
+                 return "The eager " + this.name + " shall appear here...";
+	     }
+         }, {
+	     pic: "http://2.bp.blogspot.com/-FhcPduq6qnQ/TkDcxjKKwEI/AAAAAAAABuo/jKRf89KmzgA/s1600/cute+cats.jpg",
+	     clickCount: 0,
+	     name: "Pokus The Twins",
+	     get alt () {
+                 return "The milky " + this.name + " shall appear here...";
+	     }
+         }, {
+	     pic: "http://images2.fanpop.com/image/photos/9900000/so-cute-3-cute-kittens-9989494-1098-960.jpg",
+	     clickCount: 0,
+	     name: "Kattie The Small",
+	     get alt () {
+                 return "The cute " + this.name + " shall appear here...";
+	     }
+         }];
+
+         /* Pure HTML -- using createElement */
+         /* var insertCatsHere=document.getElementById('cat-list');
+          * var catListContainer=document.createElement('ul');
+          * insertCatsHere.appendChild(catListContainer);
+          */
+         /* jQuery method */
+         /* Good reference: https://stackoverflow.com/questions/1126055/how-do-i-assemble-a-ul-using-jquery-append */
+         var catList = $('<ul/>').appendTo('#cat-list');
+         cats.forEach(function (thisCat, index) {
+             /* Create cat list */
+             var thisCatElem = $('<li/>', {
+                 id: 'cat-element-'+index,
+                 text: thisCat.alt.replace(/shall appear here.../i, '')
+             }).appendTo(catList)
+             
+             /* Create respective cat figure and keep them hidden initially */
+             var thisCatFig = $('<figure/>', {id: 'catfig-'+index})
+                 .appendTo('body')
+                 .hide();
+             
+             $('<img/>', {
+                 src: thisCat.pic,
+                 id: 'cat-'+index,
+                 height: '500px',
+                 alt: thisCat.alt})
+                 .appendTo(thisCatFig)
+
+             /* Create caption with cat name */
+             $('<figcaption/>', {text: thisCat.name}).appendTo(thisCatFig);
+
+             /* Create count-gadget paragraph */
+             $('<p/>', {
+                 id: 'count-gadget-'+index,
+                 text: 'Please click the cat!'})
+                 .appendTo(thisCatFig);
+
+             /* Click event to display cat on clicking the name */
+             thisCatElem.on('click', (function(indexCopy) {
+                 return function() {
+                     cats.forEach(function (cat, num) {
+                         if (num==indexCopy) {
+                             $('#catfig-'+num).show();
+                         } else {
+                             $('#catfig-'+num).hide();
+                         }
+                     });
+                 }
+             })(index));
+
+             /* Click event to increment count on clicking image */
+             thisCatFig.on('click', (function(indexCopy) {
+                 return function() {
+                     cats.forEach(function (cat, num) {
+                         if (num==indexCopy) {
+                             $('#count-gadget-'+num)
+                                 .html("You clicked " + cats[num].name + " " +
+                                      ++cats[num].clickCount + " time(s)!");
+                         }
+                     });
+                 }
+             })(index));
+
+         });
+     });
+    </script>
+</html>
+
