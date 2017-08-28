@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <title>
+            Cat Clicker Premium!
+        </title>
+    </head>
+    
+    <body>
+        <h1 id="title">
+            <!-- JS fills this -->
+        </h1>
+
+        <aside id="cat-list-area" style="height: 70%; max-height: 500px;">
+            <!-- Cat list goes here, populated by JS -->
+	</aside>
+
+        <figure id="current-cat">
+
+            <!-- Currently clicked cat image goes here -->
+            
+            <figcaption id="current-cat-name">
+                <!-- JS to fill this -->
+            </figcaption>
+
+            <p id="count-display">
+                <!-- JS to fill this -->
+            </p>
+            
+        </figure>
+        
+    </body>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+     $(document).ready(function () {
+
+         var model = {
+             cats: [{
+	         pic: "https://cdn.pixabay.com/photo/2015/02/09/15/55/cat-629821_960_720.jpg",
+	         clickCount: 0,
+	         name: "Kiki The Toy",
+	         get alt () {
+                     return "The cutesy " + this.name + " shall appear here...";
+	         }
+             }, {
+	         pic: "https://dianakhayyat.files.wordpress.com/2011/05/animals_cats_small_cat_005241_.jpg",
+	         clickCount: 0,
+	         name: "Kuku The Hypnotizer",
+	         get alt () {
+                     return "The mighty " + this.name + " shall appear here...";
+	         }
+             }, {
+	         pic: "http://images2.fanpop.com/image/photos/12900000/Cute-kittens-12929201-1600-1200.jpg",
+	         clickCount: 0,
+	         name: "Monu The Jubilant",
+	         get alt () {
+                     return "The eager " + this.name + " shall appear here...";
+	         }
+             }, {
+	         pic: "http://2.bp.blogspot.com/-FhcPduq6qnQ/TkDcxjKKwEI/AAAAAAAABuo/jKRf89KmzgA/s1600/cute+cats.jpg",
+	         clickCount: 0,
+	         name: "Pokus The Twins",
+	         get alt () {
+                     return "The milky " + this.name + " shall appear here...";
+	         }
+             }, {
+	         pic: "http://images2.fanpop.com/image/photos/9900000/so-cute-3-cute-kittens-9989494-1098-960.jpg",
+	         clickCount: 0,
+	         name: "Kattie The Small",
+	         get alt () {
+                     return "The cute " + this.name + " shall appear here...";
+	         }
+             }]
+         };
+
+         var octopus = {
+             currentCat: {},
+             
+             getCats: function () {
+                 return model.cats;
+             },
+
+             init: function () {
+                 viewList.init();
+             },
+
+             setCurrentCat: function (catNumber) {
+                 currentCat = octopus.getCats()[catNumber];
+                 viewCat.renderCat(currentCat);
+             }
+         };
+
+         var viewList = {
+             init: function () {
+                 // Add the heading
+                 $('#title').text(document.title);
+
+                 // Init the ul list object
+                 if (octopus.getCats().length>0) {
+                     /* Populate the cat names */
+                     $('<ul/>', {id: "cat-list"}).appendTo('#cat-list-area');
+
+                     // Nothing more to initialize... let's directly call render.
+                     viewList.render();
+                 } else {
+                     /* Error out! */
+                     $('<p/>', {text: "No cats available in database!"}).appendTo('#cat-list-area');
+                 }
+             },
+
+             render: function () {
+                 octopus.getCats().forEach(function (thisCat, index) {
+                     /* Make cat name element, get handler for jQuery chaining */
+                     var thisCatElem = $('<li/>', {
+                         id: 'cat-element-'+index,
+                         text: thisCat.alt.replace(/shall appear here.../i, '')
+                     })
+                         .appendTo("#cat-list")
+                         .on('click', octopus.setCurrentCat(index));
+                 });
+             }
+         };
+         
+         var viewCat = {
+             renderCat: function(catObj) {
+                 /* Remove current content if any */
+                 $('#current-cat').empty();
+
+                 /* Add the new cat */
+                 var thisCatFig = $('<img/>', {
+                     id: "current-cat-fig",
+                     src: catObj.pic,
+                     alt: catObj.alt,
+                     height: '500px'
+                 })
+                     .prependTo("#current-cat");
+                     
+                 /* Add click event Listener */
+                 
+                 /* octopus.getCats().forEach(function (cat, num) {
+                  *     if (num==indexCopy) {
+                  *         $('#catfig-'+num).show();
+                  *     } else {
+                  *         $('#catfig-'+num).hide();
+                  *     }
+                  * });*/
+                     }
+         };
+
+         octopus.init();
+     });
+    </script>
+</html>
+
